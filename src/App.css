@@ -40,3 +40,116 @@
 .read-the-docs {
   color: #888;
 }
+
+
+.app-container {
+  border: 1px solid #210217;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 700px;
+  margin: 50px auto;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #260316;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+
+.title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 25px;
+  color: #ffffff;
+}
+
+
+.subtitle {
+  font-size: 20px;
+  margin-top: 35px;
+  margin-bottom: 10px;
+  color: #cccccc;
+}
+
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.input {
+  flex: 1;
+  min-width: 250px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #380f33;
+  font-size: 15px;
+  background-color: #3f1034;
+  color: white;
+}
+
+
+button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #410e32;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #340c1c;
+}
+
+
+.out-of-stock-btn {
+  background-color: #704d8a;
+}
+
+.out-of-stock-btn:hover {
+  background-color: #8a5bd4;
+}
+
+
+.product-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.product-item {
+  background-color: #2e2e2e;
+  border: 1px solid #444;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: white;
+}
+
+.product-item:hover {
+  background-color: #3c3c3c;
+}
+
+.product-item.sin-stock {
+  background-color: #3a3a3a;
+  color: #aaa;
+  font-style: italic;
+}
+
+.product-item.selected {
+  border: 2px solid #888;
+  font-weight: bold;
+}
+
+
+.fecha-actualizacion {
+  font-size: 12px;
+  margin-top: 6px;
+  color: #999;
+}

@@ -1,11 +1,10 @@
-//Alondra Espinoza y Ariana Hernández
-
 import { useState, useEffect } from 'react'
 import './App.css'
 
 interface Todo {
   descripcion: string
   sinStock?: boolean
+  ultimaActualizacion?: string
 }
 
 function App() {
@@ -21,9 +20,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (todoList.length > 0) {
-      localStorage.setItem('todoList', JSON.stringify(todoList))
-    }
+    localStorage.setItem('todoList', JSON.stringify(todoList))
   }, [todoList])
 
   const handleChange = (e: any) => {
@@ -32,7 +29,11 @@ function App() {
 
   const handleAdd = () => {
     if (todoDescripcion.trim() === '') return
-    const newTodo: Todo = { descripcion: todoDescripcion, sinStock: false }
+    const newTodo: Todo = {
+      descripcion: todoDescripcion,
+      sinStock: false,
+      ultimaActualizacion: undefined,
+    }
     setTodoList([newTodo, ...todoList])
     setTodoDescripcion('')
   }
@@ -59,10 +60,8 @@ function App() {
     if (editIndex === null) return
     const updatedList = [...todoList]
     updatedList[editIndex].sinStock = true
-
- 
+    updatedList[editIndex].ultimaActualizacion = new Date().toLocaleString()
     updatedList.sort((a, b) => Number(a.sinStock) - Number(b.sinStock))
-
     setTodoList(updatedList)
     setEditIndex(null)
     setTodoDescripcion('')
@@ -74,37 +73,43 @@ function App() {
   }
 
   return (
-    <div style={{ border: '1px solid black', padding: '10px' }}>
-      <div>
+    <div className="app-container">
+      <h2 className="title">Gestión de Productos</h2>
+
+      <div className="input-group">
         <input
           type='text'
           value={todoDescripcion}
           onChange={handleChange}
-          style={{ marginRight: 10 }}
+          placeholder='Nombre del producto'
+          className="input"
         />
-        <button onClick={handleAdd}>Add Product</button>
-        <button onClick={handleUpdate}>Update Product</button>
-        <button onClick={handleRemove}>Remove Product</button>
-        <button onClick={handleMarkOutOfStock}>Mark Out of Stock</button>
+        <button onClick={handleAdd}>Agregar</button>
+        <button onClick={handleUpdate}>Actualizar</button>
+        <button onClick={handleRemove}>Eliminar</button>
+        <button onClick={handleMarkOutOfStock} className="out-of-stock-btn">
+          Sin Stock
+        </button>
       </div>
 
-      <div>Products Here:</div>
-      <ul>
-        {todoList.map((todo, index) => {
-          return (
-            <li
-              key={index}
-              onClick={() => handleSelect(index)}
-              style={{
-                cursor: 'pointer',
-                fontWeight: editIndex === index ? 'bold' : 'normal',
-                color: todo.sinStock ? '#999' : 'black',
-              }}
-            >
+      <h3 className="subtitle">Lista de productos:</h3>
+      <ul className="product-list">
+        {todoList.map((todo, index) => (
+          <li
+            key={index}
+            onClick={() => handleSelect(index)}
+            className={`product-item ${todo.sinStock ? 'sin-stock' : ''} ${editIndex === index ? 'selected' : ''}`}
+          >
+            <div>
               {todo.descripcion} {todo.sinStock ? '(Sin stock)' : ''}
-            </li>
-          )
-        })}
+            </div>
+            {todo.sinStock && todo.ultimaActualizacion && (
+              <div className="fecha-actualizacion">
+                Última actualización: {todo.ultimaActualizacion}
+              </div>
+            )}
+          </li>
+        ))}
       </ul>
     </div>
   )
