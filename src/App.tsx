@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,  useEffect} from 'react'
 import './App.css'
 
 interface Todo {
@@ -9,6 +9,20 @@ function App() {
   const [todoDescripcion, setTodoDescripcion] = useState('')
   const [todoList, setTodoList] = useState<Todo[]>([])
   const [editIndex, setEditIndex] = useState<number | null>(null)
+
+  useEffect(() => {
+    const storedList = localStorage.getItem('todoList')
+    if (storedList) {
+      setTodoList(JSON.parse(storedList) as Todo[]) 
+    }
+  }, [])
+
+
+  useEffect(() => {
+    if (todoList.length > 0) {
+      localStorage.setItem('todoList', JSON.stringify(todoList)) 
+    }
+  }, [todoList]) 
 
   const handleChange = (e: any) => {
     setTodoDescripcion(e.target.value)
@@ -75,7 +89,7 @@ function App() {
           )
         })}
       </ul>
-    </div>
+      </div>
   )
 }
 
