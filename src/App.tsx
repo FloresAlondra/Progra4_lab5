@@ -1,6 +1,5 @@
 //Alondra Espinoza y Ariana Hernández
 
-
 import { useState, useEffect } from 'react'
 import './App.css'
 
