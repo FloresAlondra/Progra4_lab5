@@ -1,8 +1,12 @@
-import { useState,  useEffect} from 'react'
+//Alondra Espinoza y Ariana Hernández
+
+
+import { useState, useEffect } from 'react'
 import './App.css'
 
 interface Todo {
   descripcion: string
+  sinStock?: boolean
 }
 
 function App() {
@@ -13,16 +17,15 @@ function App() {
   useEffect(() => {
     const storedList = localStorage.getItem('todoList')
     if (storedList) {
-      setTodoList(JSON.parse(storedList) as Todo[]) 
+      setTodoList(JSON.parse(storedList) as Todo[])
     }
   }, [])
 
-
   useEffect(() => {
     if (todoList.length > 0) {
-      localStorage.setItem('todoList', JSON.stringify(todoList)) 
+      localStorage.setItem('todoList', JSON.stringify(todoList))
     }
-  }, [todoList]) 
+  }, [todoList])
 
   const handleChange = (e: any) => {
     setTodoDescripcion(e.target.value)
@@ -30,7 +33,7 @@ function App() {
 
   const handleAdd = () => {
     if (todoDescripcion.trim() === '') return
-    const newTodo = { descripcion: todoDescripcion }
+    const newTodo: Todo = { descripcion: todoDescripcion, sinStock: false }
     setTodoList([newTodo, ...todoList])
     setTodoDescripcion('')
   }
@@ -38,7 +41,7 @@ function App() {
   const handleUpdate = () => {
     if (editIndex === null || todoDescripcion.trim() === '') return
     const updatedList = [...todoList]
-    updatedList[editIndex] = { descripcion: todoDescripcion }
+    updatedList[editIndex].descripcion = todoDescripcion
     setTodoList(updatedList)
     setEditIndex(null)
     setTodoDescripcion('')
@@ -48,6 +51,19 @@ function App() {
     if (editIndex === null) return
     const updatedList = [...todoList]
     updatedList.splice(editIndex, 1)
+    setTodoList(updatedList)
+    setEditIndex(null)
+    setTodoDescripcion('')
+  }
+
+  const handleMarkOutOfStock = () => {
+    if (editIndex === null) return
+    const updatedList = [...todoList]
+    updatedList[editIndex].sinStock = true
+
+ 
+    updatedList.sort((a, b) => Number(a.sinStock) - Number(b.sinStock))
+
     setTodoList(updatedList)
     setEditIndex(null)
     setTodoDescripcion('')
@@ -70,6 +86,7 @@ function App() {
         <button onClick={handleAdd}>Add Product</button>
         <button onClick={handleUpdate}>Update Product</button>
         <button onClick={handleRemove}>Remove Product</button>
+        <button onClick={handleMarkOutOfStock}>Mark Out of Stock</button>
       </div>
 
       <div>Products Here:</div>
@@ -82,14 +99,15 @@ function App() {
               style={{
                 cursor: 'pointer',
                 fontWeight: editIndex === index ? 'bold' : 'normal',
+                color: todo.sinStock ? '#999' : 'black',
               }}
             >
-              {todo.descripcion}
+              {todo.descripcion} {todo.sinStock ? '(Sin stock)' : ''}
             </li>
           )
         })}
       </ul>
-      </div>
+    </div>
   )
 }
 
