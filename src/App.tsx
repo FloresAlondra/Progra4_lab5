@@ -58,7 +58,7 @@ function App() {
     const updatedList = [...todoList]
     updatedList[editIndex].sinStock = true
 
-    // Reordenamos: primero los disponibles, luego los sin stock
+ 
     updatedList.sort((a, b) => Number(a.sinStock) - Number(b.sinStock))
 
     setTodoList(updatedList)
